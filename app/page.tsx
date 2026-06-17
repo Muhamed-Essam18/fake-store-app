@@ -3,29 +3,12 @@
 import { useEffect, useState } from "react";
 import { getProducts } from "@/services/products";
 import { Product } from "@/types/product";
-
+import useProducts from "@/hooks/useProducts";
 import LoadingSpinner from "@/components/LoadingSpinner";
 import ProductCard from "@/components/ProductCard";
 
 export default function Home() {
-  const [products, setProducts] = useState<Product[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState("");
-
-  useEffect(() => {
-    const fetchProducts = async () => {
-      try {
-        const data = await getProducts();
-        setProducts(data);
-      } catch {
-        setError("Something went wrong");
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchProducts();
-  }, []);
+  const { products, loading, error } = useProducts();
 
   if (loading) {
     return <LoadingSpinner />;
