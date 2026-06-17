@@ -3,7 +3,10 @@
 import { useEffect, useState } from "react";
 import { getProducts } from "@/services/products";
 import { Product } from "@/types/product";
+
 import LoadingSpinner from "@/components/LoadingSpinner";
+import ProductCard from "@/components/ProductCard";
+
 export default function Home() {
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
@@ -39,6 +42,12 @@ export default function Home() {
       </h1>
 
       <p>Total Products: {products.length}</p>
+
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 mt-6">
+        {products.map((product) => (
+          <ProductCard key={product.id} product={product} />
+        ))}
+      </div>
     </main>
   );
 }
