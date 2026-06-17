@@ -1,15 +1,27 @@
 "use client";
+
 import useProducts from "@/hooks/useProducts";
 import LoadingSpinner from "@/components/LoadingSpinner";
 import ProductCard from "@/components/ProductCard";
+import {useMemo, useState} from "react";
+import SearchBar from "@/components/SearchBar";
+
 
 export default function Home() {
-  const { products, loading, error } = useProducts();
 
-  if (loading) {
+  const { products, loading, error } = useProducts();
+  const [search, setSearch] = useState("");
+  const filteredProducts = useMemo(() => {
+  return products.filter((product) =>
+    product.title
+      .toLowerCase()
+      .includes(search.toLowerCase())
+  );
+}, [products, search]);
+
+if (loading) {
     return <LoadingSpinner />;
   }
-
   if (error) {
     return (
       <p className="mx-auto mt-16 max-w-xl rounded-3xl border border-red-500/20 bg-red-500/10 p-6 text-center text-red-100 shadow-lg shadow-red-500/10">
@@ -17,6 +29,7 @@ export default function Home() {
       </p>
     );
   }
+
 
   return (
     <main className="relative overflow-hidden px-4 py-16 sm:py-20 lg:py-24">
@@ -45,12 +58,27 @@ export default function Home() {
             </div>
           </div>
         </section>
+      <SearchBar
+          search={search}
+          setSearch={setSearch}
+        />
+        {filteredProducts.length === 0 ? (
+          <div className="col-span-full rounded-3xl border border-slate-700 bg-slate-900/70 p-12 text-center">
+      <h2 className="text-2xl font-bold text-white">
+        No Results Found
+      </h2>
 
-        <section className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-          {products.map((product) => (
-            <ProductCard key={product.id} product={product} />
-          ))}
-        </section>
+      <p className="mt-3 text-slate-400">
+        Try searching with a different keyword.
+      </p>
+    </div>
+        ) : (
+          <section className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+            {filteredProducts.map((product) => (
+              <ProductCard key={product.id} product={product} />
+            ))}
+          </section>
+        )}
       </div>
     </main>
   );
