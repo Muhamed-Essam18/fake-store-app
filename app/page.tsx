@@ -5,19 +5,43 @@ import LoadingSpinner from "@/components/LoadingSpinner";
 import ProductCard from "@/components/ProductCard";
 import {useMemo, useState} from "react";
 import SearchBar from "@/components/SearchBar";
+import CategoryFilter from "@/components/CategoryFilter";
 
 
 export default function Home() {
 
   const { products, loading, error } = useProducts();
   const [search, setSearch] = useState("");
+  const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
+  
   const filteredProducts = useMemo(() => {
-  return products.filter((product) =>
-    product.title
-      .toLowerCase()
-      .includes(search.toLowerCase())
-  );
-}, [products, search]);
+  return products.filter((product) => {
+    const matchesSearch =
+      product.title
+        .toLowerCase()
+        .includes(search.toLowerCase());
+
+    const matchesCategory =
+      selectedCategories.length === 0 ||
+      selectedCategories.includes(
+        product.category
+      );
+
+    return matchesSearch && matchesCategory;
+  });
+}, [
+  products,
+  search,
+  selectedCategories,
+]);
+
+const categories = useMemo(() => {
+  return [
+    ...new Set(
+      products.map((product) => product.category)
+    ),
+  ];
+}, [products]);
 
 if (loading) {
     return <LoadingSpinner />;
@@ -62,6 +86,11 @@ if (loading) {
           search={search}
           setSearch={setSearch}
         />
+        <CategoryFilter
+          categories={categories}
+          selectedCategories={selectedCategories}
+          setSelectedCategories={setSelectedCategories}
+/>
         {filteredProducts.length === 0 ? (
           <div className="col-span-full rounded-3xl border border-slate-700 bg-slate-900/70 p-12 text-center">
       <h2 className="text-2xl font-bold text-white">
