@@ -1,6 +1,6 @@
 import { Product } from "@/types/product";
-import { BadgeDollarSign, Tag } from "lucide-react";
-
+import { BadgeDollarSign, Loader2, Tag } from "lucide-react";
+import { useState } from "react";
 interface ProductCardProps {
   product: Product;
 }
@@ -8,13 +8,26 @@ interface ProductCardProps {
 export default function ProductCard({
   product,
 }: ProductCardProps) {
+  const [imageLoaded, setImageLoaded] = useState(false);
+
   return (
     <article className="group overflow-hidden rounded-[1.75rem] border border-[#2a2a2a]/20 bg-white p-5 transition duration-500 hover:border-[#f2cf1d]/80">
-      <div className="flex min-h-[12rem] items-center justify-center rounded-3xl bg-[#efefef] p-5 transition duration-500 group-hover:bg-[#f7f7f7]">
+      <div className="relative flex min-h-[12rem] items-center justify-center rounded-3xl bg-[#efefef] p-5 transition duration-500 group-hover:bg-[#f7f7f7]">
+        {!imageLoaded && (
+          <Loader2 className="absolute h-8 w-8 animate-spin text-[#c49d08]" />
+        )}
+
         <img
           src={product.image}
           alt={product.title}
-          className="h-48 w-full object-contain transition duration-500 group-hover:scale-105"
+          loading="lazy"
+          decoding="async"
+          onLoad={() => setImageLoaded(true)}
+          onError={() => setImageLoaded(true)}
+          
+          className={`h-48 w-full object-contain transition duration-500 group-hover:scale-105 ${
+            imageLoaded ? "opacity-100" : "opacity-0"
+          }`}
         />
       </div>
 
