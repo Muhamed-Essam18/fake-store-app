@@ -113,8 +113,8 @@ http://localhost:3000
 
 ## Internship Submission Notes
 
-- Repository:
-- Live Demo :
+- Repository: https://github.com/Muhamed-Essam18/fake-store-app.git
+- Live Demo : https://fake-store-app-kappa.vercel.app/
 
 ## Author
 
