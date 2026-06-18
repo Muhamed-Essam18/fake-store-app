@@ -1,36 +1,122 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Fake Store SPA - Internship Task Project
 
-## Getting Started
+This project is built as an internship assessment task to demonstrate frontend fundamentals and practical React skills.
 
-First, run the development server:
+It is a single-page application that fetches product data from the Fake Store API, displays products in reusable cards, and supports real-time search and category filtering.
+
+## Task Objective
+
+Build a responsive and user-friendly SPA that demonstrates:
+
+- Reusable component-based architecture
+- API data fetching with loading and error handling
+- Real-time search and category filtering
+- Clean, maintainable code and optimized rendering patterns
+
+## Live Data Source
+
+- API: https://fakestoreapi.com/products
+
+## Implemented Features
+
+- Responsive layout for desktop, tablet, and mobile
+- Product listing with reusable product cards
+- Real-time search by product title
+- Multi-select category filtering
+- Empty state when no products match search/filter
+- Loading spinner while fetching data
+- Graceful API error state handling
+- Visual polish with consistent iconography and hover transitions
+
+## Tech Stack
+
+- Next.js (App Router)
+- React
+- TypeScript
+- Tailwind CSS
+- Lucide React icons
+- Native Fetch API
+
+## Project Structure
+
+```text
+app/
+	layout.tsx
+	page.tsx
+components/
+	CategoryFilter.tsx
+	LoadingSpinner.tsx
+	ProductCard.tsx
+	SearchBar.tsx
+hooks/
+	useProducts.ts
+services/
+	products.ts
+types/
+	product.ts
+```
+
+## How to Run Locally
+
+1. Install dependencies
+
+```bash
+npm install
+```
+
+2. Start development server
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+3. Open in browser
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+http://localhost:3000
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Available Scripts
 
-## Learn More
+- npm run dev: run development server
+- npm run build: build production bundle
+- npm run start: run production server
+- npm run lint: run lint checks
 
-To learn more about Next.js, take a look at the following resources:
+## How Requirements Were Addressed
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+1. Responsive UI and reusable components
+- UI is split into SearchBar, CategoryFilter, ProductCard, and LoadingSpinner.
+- Tailwind CSS is used for responsive spacing, typography, and grid behavior.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+2. Data fetching and state management
+- Data is fetched on mount in useProducts via useEffect.
+- Local state (useState) manages products, loading, error, search text, and selected categories.
 
-## Deploy on Vercel
+3. Real-time interactivity
+- Search updates results as user types.
+- Category filtering is interactive and supports multiple selections.
+- Empty state message appears when no results are found.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+4. Optimization and clean code
+- Filtering and category extraction use useMemo to reduce unnecessary recalculations.
+- Logic is separated across hooks, services, components, and types.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Challenges and Solutions
+
+- Challenge: Avoiding unnecessary list recomputation during search/filter updates.
+	Solution: Wrapped computed lists in useMemo for stable and efficient updates.
+
+- Challenge: Maintaining visual consistency with varying product title lengths.
+	Solution: Applied consistent title height and line clamping in product cards.
+
+- Challenge: Keeping UI responsive while preserving a polished theme.
+	Solution: Used utility-first responsive classes and reusable components for consistent behavior across screen sizes.
+
+## Internship Submission Notes
+
+- Repository:
+- Live Demo :
+
+## Author
+
+- Candidate Name: Muhamed Essam
+- Internship Role: Frontend Developer / MERN Stack Intern
